@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
@@ -25,13 +25,22 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Lottie.asset('assets/video/splash_animation.json', repeat: false),
-            SizedBox(
-              height: 20,
-            ),
+            Lottie.asset('assets/video/logo1.json', repeat: false),
             const Text(
               "My Membership",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Container(
+              width: 300, // Set width of the progress bar
+              child: LinearProgressIndicator(
+                minHeight: 4, // Height of the progress bar
+                value: null, // Use null for indeterminate progress
+                backgroundColor: Colors.grey[300],
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
             ),
           ]),
         ));
