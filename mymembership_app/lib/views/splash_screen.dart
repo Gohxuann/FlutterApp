@@ -27,13 +27,13 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Lottie.asset('assets/video/logo1.json', repeat: false),
             const Text(
-              "My Membership",
+              "My MemberLink",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
-            Container(
+            SizedBox(
               width: 300, // Set width of the progress bar
               child: LinearProgressIndicator(
                 minHeight: 4, // Height of the progress bar
