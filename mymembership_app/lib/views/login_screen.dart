@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mymembership_app/myconfig.dart';
 import 'package:mymembership_app/views/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,15 +21,30 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   bool rememberme = false;
+  bool _isObscure = true;
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+    ],
+  );
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadPref();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      if (account != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
+      }
+    });
+    _googleSignIn.signInSilently();
   }
-
-  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +205,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Create Account Button
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // background color
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -210,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Flexible(
                     child: IconButton(
                       onPressed: () {
-                        // signInWithGoogle();
+                        _handleSignIn();
                       },
                       icon: Image.asset('assets/logos/google.png',
                           width: 80, height: 80, fit: BoxFit.cover),
@@ -254,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   void onLogin() {
-    print("Login button pressed");
+    //print("Login button pressed");
     String email = emailcontroller.text;
     String password = passwordcontroller.text;
     if (email.isEmpty || password.isEmpty) {
@@ -263,10 +289,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
-    print("Starting HTTP request...");
+    //print("Starting HTTP request...");
     http.post(
-        //Uri.parse("${MyConfig}/membership_db/api/login_user.php"),
-        Uri.parse("http://172.20.10.5/membership/api/login_user.php"),
+        Uri.parse("${MyConfig.servername3}/membership/api/login_user.php"),
         body: {"email": email, "password": password}).then((response) {
       // print(response.statusCode);
       // print(response.body);to check if it is working or not
@@ -324,5 +349,13 @@ class _LoginScreenState extends State<LoginScreen> {
     rememberme = prefs.getBool("rememberme") ?? false;
 
     setState(() {});
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
   }
 }
