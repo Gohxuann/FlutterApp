@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mymembership_app/myconfig.dart';
+import 'package:mymembership_app/views/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -26,7 +27,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back,
+              color: Colors.black), //log out button
           onPressed: () {
             Navigator.pop(context);
           },
@@ -76,9 +78,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
               const SizedBox(height: 15),
+
               // Username Field
               TextField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'E-Mail',
                   prefixIcon: const Icon(Icons.email),
@@ -246,19 +250,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fit: BoxFit.cover,
                     ), // Add Google icon image in assets
                     iconSize: 40,
-                    onPressed: () {
-                      // Handle Google Sign Up
-                    },
+                    onPressed: () {},
                   ),
-                  // Uncomment to add Facebook button
-                  // IconButton(
-                  //   icon: Image.asset(
-                  //       'assets/facebook_icon.png'), // Add Facebook icon image in assets
-                  //   iconSize: 40,
-                  //   onPressed: () {
-                  //     // Handle Facebook Sign Up
-                  //   },
-                  // ),
+                  IconButton(
+                    icon: Image.asset('assets/logos/facebook.png',
+                        width: 53,
+                        height: 53), // Add Facebook icon image in assets
+                    iconSize: 40,
+                    onPressed: () {},
+                  ),
                 ],
               ),
             ],
@@ -271,13 +271,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void onRegisterDialog() {
     String email = emailController.text;
     String password = passwordController.text;
-    if (email.isEmpty || password.isEmpty) {
+    String firstname = firstnameController.text;
+    String lastname = lastNameController.text;
+    String phone = phoneController.text;
+
+    if (email.isEmpty ||
+        password.isEmpty ||
+        firstname.isEmpty ||
+        lastname.isEmpty ||
+        phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Please enter email and password"),
+        content: Text("Please enter all your details"),
+      ));
+      return;
+    } else if (password != confirmpasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Password does not match"),
+      ));
+      return;
+    } else if (!privacyPolicy) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please accept privacy policy"),
+      ));
+      return;
+    } else if (!RegExp(r'^[6-9]\d{9}$').hasMatch(phone)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please enter valid phone number"),
       ));
       return;
     }
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -297,7 +319,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               onPressed: () {
                 userRegistration();
-                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
               },
             ),
             TextButton(

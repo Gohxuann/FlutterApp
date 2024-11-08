@@ -1,7 +1,13 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:mymembership_app/views/splash_screen.dart';
 
 void main() {
+  EmailOTP.config(
+    appName: 'MyApp',
+    otpType: OTPType.numeric,
+    emailTheme: EmailTheme.v4,
+  );
   runApp(const MyApp());
 }
 

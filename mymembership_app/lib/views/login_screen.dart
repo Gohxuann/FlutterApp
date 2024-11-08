@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mymembership_app/main.dart';
 import 'package:mymembership_app/myconfig.dart';
-import 'package:mymembership_app/views/emailotp_verify_screen.dart';
 import 'package:mymembership_app/views/home_screen.dart';
+import 'package:mymembership_app/views/otp_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'register_screen.dart';
@@ -183,8 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EmailOtpVerificationPage(
-                                  email: emailcontroller.text),
+                              builder: (context) => OtpScreen(),
                             ),
                           );
                         },
@@ -295,28 +295,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // signInWithGoogle() async {
-  //   GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //   GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  //   // Define credential as `final`
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-
-  //   // Sign in with the credential
-  //   UserCredential userCredential =
-  //       await FirebaseAuth.instance.signInWithCredential(credential);
-  //   print(userCredential.user?.displayName);
-
-  //   if (userCredential.user != null) {
-  //     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  //       return const HomeScreen();
-  //     }));
-  //   }
-  // }
-
   void onLogin() async {
     //print("Login button pressed");
     String email = emailcontroller.text;
@@ -343,6 +321,7 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text("Login Success"),
             backgroundColor: Colors.green,
           ));
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (content) => const HomeScreen()),
