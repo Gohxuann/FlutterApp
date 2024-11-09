@@ -19,7 +19,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
   bool privacyPolicy = false;
-  bool _isObscure = true;
+  bool _isObscure1 = true;
+  bool _isObscure2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -108,19 +109,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Password Field
               TextField(
                 controller: passwordController,
-                obscureText: _isObscure,
+                obscureText: _isObscure1,
                 decoration: InputDecoration(
                   labelText: "Password",
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _isObscure
+                      _isObscure1
                           ? Icons.visibility_off_outlined
                           : Icons.visibility,
                     ),
                     onPressed: () {
                       setState(() {
-                        _isObscure = !_isObscure;
+                        _isObscure1 = !_isObscure1;
                       });
                     },
                   ),
@@ -133,19 +134,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Phone Number Field
               TextField(
                 controller: confirmpasswordController,
-                obscureText: _isObscure,
+                obscureText: _isObscure2,
                 decoration: InputDecoration(
                   labelText: "Confirm Password",
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _isObscure
+                      _isObscure2
                           ? Icons.visibility_off_outlined
                           : Icons.visibility,
                     ),
                     onPressed: () {
                       setState(() {
-                        _isObscure = !_isObscure;
+                        _isObscure2 = !_isObscure2;
                       });
                     },
                   ),
@@ -203,10 +204,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onRegisterDialog();
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    side: const BorderSide(color: Colors.black, width: 0.1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 4,
+                    shadowColor: Colors.grey.withOpacity(0.5),
                   ),
                   child: const Text(
                     'Create Account',
@@ -284,7 +289,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text("Please enter all your details"),
       ));
       return;
-    } else if (!RegExp(r'(^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!#$]).{8,}$)')
+    } else if (!RegExp(
+            r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
         .hasMatch(password)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
@@ -306,8 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text("Please enter valid phone number"),
       ));
       return;
-    } else if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}+")
+    } else if (!RegExp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+[.][A-Za-z.]{2,}$')
         .hasMatch(email)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please enter valid email"),
@@ -367,7 +372,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String confirmpass = confirmpasswordController.text;
 
     http.post(
-        Uri.parse("${MyConfig.servername2}/membership/api/register_user.php"),
+        Uri.parse("${MyConfig.servername1}/membership/api/register_user.php"),
         body: {
           "firstname": firstname,
           "lastname": lastname,

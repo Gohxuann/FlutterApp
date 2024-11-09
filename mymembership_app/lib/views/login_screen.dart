@@ -308,7 +308,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true); // Show loading indicator
     try {
       http.Response response = await http.post(
-        Uri.parse("${MyConfig.servername2}/membership/api/login_user.php"),
+        Uri.parse("${MyConfig.servername1}/membership/api/login_user.php"),
         body: {"email": email, "password": password},
       );
       print(response.statusCode);

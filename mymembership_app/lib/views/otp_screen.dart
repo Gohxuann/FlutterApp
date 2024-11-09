@@ -11,9 +11,9 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -26,9 +26,9 @@ class _OtpScreenState extends State<OtpScreen> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Lottie.asset(
@@ -70,18 +70,7 @@ class _OtpScreenState extends State<OtpScreen> {
               const SizedBox(height: 15),
               ElevatedButton(
                 onPressed: () async {
-                  if (await EmailOTP.sendOTP(email: emailController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("OTP has been sent")));
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (content) => const OtpVerificationScreen()),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Failed to send OTP")));
-                  }
+                  sendOTP();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
@@ -95,7 +84,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 child: const Text(
                   'Send OTP',
-                  style: TextStyle(fontSize: 13, color: Colors.deepPurple),
+                  style: TextStyle(fontSize: 16, color: Colors.deepPurple),
                 ),
               ),
             ],
@@ -103,5 +92,23 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
     );
+  }
+
+  sendOTP() async {
+    if (await EmailOTP.sendOTP(email: emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("OTP has been sent"),
+      ));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (content) =>
+              OtpVerificationScreen(email: emailController.text),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("OTP failed sent")));
+    }
   }
 }

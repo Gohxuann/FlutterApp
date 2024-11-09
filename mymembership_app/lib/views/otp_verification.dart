@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -7,7 +5,8 @@ import 'package:mymembership_app/views/changepass_screen.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  final String email;
+  const OtpVerificationScreen({super.key, required this.email});
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -15,12 +14,14 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   TextEditingController otpController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   final pinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Verify OTP"),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -34,7 +35,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Lottie.asset(
                 'assets/video/otp.json',
@@ -44,7 +45,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               const Text(
                 'Enter your Verification code',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -111,14 +112,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       const SnackBar(
                           content: Text("OTP verified successfully")),
                     );
-                    Timer(const Duration(seconds: 1), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => const ChangePasswordPage(
-                                    email: "",
-                                  )));
-                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ChangePasswordPage(email: widget.email)));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Invalid OTP")),
@@ -126,15 +124,18 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 15),
+                  side: const BorderSide(color: Colors.black, width: 0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  elevation: 4,
+                  shadowColor: Colors.grey.withOpacity(0.5),
                 ),
                 child: const Text(
                   'Verify OTP',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  style: TextStyle(fontSize: 16, color: Colors.deepPurple),
                 ),
               ),
             ],
