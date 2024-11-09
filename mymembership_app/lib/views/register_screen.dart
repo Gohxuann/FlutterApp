@@ -201,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    onRegisterDialog();
+                    isEmailExist();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -395,6 +395,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.red,
           ));
         }
+      }
+    });
+  }
+
+  void isEmailExist() {
+    String email = emailController.text;
+
+    http.post(
+        Uri.parse("${MyConfig.servername1}/membership/api/email_check.php"),
+        body: {"email": email}).then((response) {
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "exist") {
+          // User user = User.fromJson(data['data']);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Email already exists"),
+            backgroundColor: Colors.red,
+          ));
+        } else {
+          onRegisterDialog();
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Error checking email")),
+        );
       }
     });
   }
