@@ -284,6 +284,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text("Please enter all your details"),
       ));
       return;
+    } else if (!RegExp(r'(^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!#$]).{8,}$)')
+        .hasMatch(password)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            "Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character"),
+      ));
+      return;
     } else if (password != confirmpasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Password does not match"),
@@ -294,9 +301,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text("Please accept privacy policy"),
       ));
       return;
-    } else if (!RegExp(r'^[6-9]\d{9}$').hasMatch(phone)) {
+    } else if (!RegExp(r'(^(?:[+60]9)?[0-9]{10,12}$)').hasMatch(phone)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please enter valid phone number"),
+      ));
+      return;
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}+")
+        .hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please enter valid email"),
       ));
       return;
     }
@@ -332,10 +346,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //   content: Text("Registration Canceled"),
-                //   backgroundColor: Colors.red,
-                // ));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Registration Canceled"),
+                  backgroundColor: Colors.red,
+                ));
               },
             ),
           ],
@@ -366,13 +380,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
-          // User user = User.fromJson(data['data']);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Registration Success"),
             backgroundColor: Color.fromARGB(255, 12, 12, 12),
           ));
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (content) => const MainScreen()));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Registration Failed"),

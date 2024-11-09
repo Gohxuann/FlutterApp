@@ -4,7 +4,7 @@ import 'package:mymembership_app/views/splash_screen.dart';
 
 void main() {
   EmailOTP.config(
-    appName: 'MyApp',
+    appName: 'MyMembership',
     otpType: OTPType.numeric,
     emailTheme: EmailTheme.v4,
   );

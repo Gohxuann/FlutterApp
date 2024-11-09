@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mymembership_app/main.dart';
 import 'package:mymembership_app/myconfig.dart';
 import 'package:mymembership_app/views/home_screen.dart';
 import 'package:mymembership_app/views/otp_screen.dart';
@@ -184,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OtpScreen(),
+                              builder: (context) => const OtpScreen(),
                             ),
                           );
                         },
