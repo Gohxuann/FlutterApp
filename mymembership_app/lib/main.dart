@@ -4,7 +4,7 @@ import 'package:mymembership_app/views/splash_screen.dart';
 
 void main() {
   EmailOTP.config(
-    appName: 'MyMembership',
+    appName: 'MyMemberlink',
     otpType: OTPType.numeric,
     emailTheme: EmailTheme.v4,
   );
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'MyMembership',
+      title: 'MyMemberlink',
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );

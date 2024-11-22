@@ -1,6 +1,6 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mymembership_app/views/login_screen.dart';
+import 'package:mymembership_app/views/auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
