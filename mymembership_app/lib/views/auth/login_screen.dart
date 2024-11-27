@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mymembership_app/myconfig.dart';
-import 'package:mymembership_app/views/home_screen.dart';
+import 'package:mymembership_app/views/newsletter/news_screen.dart';
 import 'package:mymembership_app/views/auth/otp_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;

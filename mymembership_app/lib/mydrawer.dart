@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mymembership_app/new_news.dart';
-import 'package:mymembership_app/views/home_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mymembership_app/views/auth/login_screen.dart';
+import 'package:mymembership_app/views/newsletter/news_screen.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  MyDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +51,33 @@ class MyDrawer extends StatelessWidget {
             title: const Text("Events"),
             onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Members"),
+            onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Payments"),
+            onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Products"),
+            onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Vetting"),
+            onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Settings"),
+            onTap: () {},
           ),
-          const ListTile(
+          ListTile(
             title: Text("Logout"),
+            onTap: () {
+              _googleSignIn.signOut();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (content) => const LoginScreen()));
+            },
           ),
         ],
       ),

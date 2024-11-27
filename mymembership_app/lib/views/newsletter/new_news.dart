@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mymembership_app/myconfig.dart';
+import 'package:mymembership_app/views/newsletter/news_screen.dart';
 
 class NewNewsScreen extends StatefulWidget {
   const NewNewsScreen({super.key});
@@ -179,7 +180,11 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
               ),
               onPressed: () {
                 insertNews();
-                Navigator.of(context).pop();
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
             ),
             TextButton(
