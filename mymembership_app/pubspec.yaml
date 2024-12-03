@@ -87,6 +87,7 @@ flutter:
     - assets\video\email.json
     - assets\video\otp.json
     - assets\video\password.json
+    - assets\photo\profilephoto.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

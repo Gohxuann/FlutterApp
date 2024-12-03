@@ -40,13 +40,29 @@ class _HomeScreenState extends State<HomeScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Newsletter"),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text(
+            "Newsletter",
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blueGrey, Colors.deepPurple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () {
                 loadNewsData();
               },
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -267,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void loadAllNewsData() async {
+  void loadAllNewsData() {
     // Load all news data to support searching from all pages
     http
         .get(Uri.parse(

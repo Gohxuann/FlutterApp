@@ -25,24 +25,32 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           "New Newsletter",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+          style: TextStyle(color: Colors.white),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
         ),
       ),
       body: Container(
-        color: Colors.white,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title TextField
+              const Text(
+                "Insert News Title",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
               _buildTextField(
                 controller: titleController,
                 label: "Title",
@@ -57,25 +65,26 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
                 },
               ),
               const SizedBox(height: 15),
-
-              // Description TextField
+              const Text(
+                "Insert News Description",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
               _buildTextField(
                 controller: descriptionController,
-                label: "Details",
-                hintText: "News Details",
+                label: "Description",
+                hintText: "News Description",
                 icon: Icons.description,
                 showWarning: showWarning2,
-                warningText: "* Please insert details.",
+                warningText: "* Please insert description.",
                 onChanged: (value) {
                   setState(() {
                     showWarning2 = value.isEmpty;
                   });
                 },
-                maxLines: 16,
+                maxLines: 18,
               ),
               const SizedBox(height: 30),
-
-              // Insert Button
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -128,7 +137,7 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
             labelStyle: const TextStyle(color: Colors.black54),
             hintText: hintText,
             hintStyle: const TextStyle(color: Colors.black38),
-            prefixIcon: Icon(icon, color: Colors.black54),
+            prefixIcon: Icon(icon, color: Colors.deepPurple),
             filled: true,
             fillColor: Colors.grey.shade200,
             contentPadding: const EdgeInsets.all(15),

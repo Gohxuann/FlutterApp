@@ -11,16 +11,29 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          UserAccountsDrawerHeader(
+            accountName: const Text("Abby Goh"),
+            accountEmail: const Text("hongxuangoh@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: AssetImage(
+                  'assets/photo/profilephoto.jpg'), // Updated to use an image
+            ),
             decoration: BoxDecoration(
-                // You can add color or other styling here if needed
-                ),
-            child: Text('Drawer Header'),
+              color: Colors.deepPurple,
+              gradient: LinearGradient(
+                colors: [Colors.blueGrey, Colors.deepPurple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
           ),
           ListTile(
+            leading: Icon(Icons.newspaper, color: Colors.deepPurple),
+            title: const Text("Newsletter"),
             onTap: () {
-              // Define onTap actions here if needed
               Navigator.pop(context);
               Navigator.push(
                 context,
@@ -45,38 +58,49 @@ class MyDrawer extends StatelessWidget {
                 ),
               );
             },
-            title: const Text("Newsletter"),
           ),
           ListTile(
+            leading: Icon(Icons.event, color: Colors.deepPurple),
             title: const Text("Events"),
             onTap: () {},
           ),
           ListTile(
-            title: Text("Members"),
+            leading: Icon(Icons.group, color: Colors.deepPurple),
+            title: const Text("Members"),
             onTap: () {},
           ),
           ListTile(
-            title: Text("Payments"),
+            leading: Icon(Icons.payment, color: Colors.deepPurple),
+            title: const Text("Payments"),
             onTap: () {},
           ),
           ListTile(
-            title: Text("Products"),
+            leading: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+            title: const Text("Products"),
             onTap: () {},
           ),
           ListTile(
-            title: Text("Vetting"),
+            leading: Icon(Icons.verified, color: Colors.deepPurple),
+            title: const Text("Vetting"),
             onTap: () {},
           ),
           ListTile(
-            title: Text("Settings"),
+            leading: Icon(Icons.settings, color: Colors.deepPurple),
+            title: const Text("Settings"),
             onTap: () {},
           ),
+          Divider(),
           ListTile(
-            title: Text("Logout"),
+            leading: Icon(Icons.logout, color: Colors.red),
+            title: const Text("Logout"),
             onTap: () {
               _googleSignIn.signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (content) => const LoginScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (content) => const LoginScreen(),
+                ),
+              );
             },
           ),
         ],
