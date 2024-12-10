@@ -5,7 +5,7 @@ import 'package:mymembership_app/views/newsletter/edit_news.dart';
 import 'package:mymembership_app/models/news.dart';
 import 'package:mymembership_app/myconfig.dart';
 import 'package:http/http.dart' as http;
-import 'package:mymembership_app/mydrawer.dart';
+import 'package:mymembership_app/views/shared/mydrawer.dart';
 import 'package:mymembership_app/views/newsletter/new_news.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
