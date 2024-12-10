@@ -91,6 +91,7 @@ flutter:
     - assets\video\password.json
     - assets\photo\profilephoto.jpg
     - assets\photo\camera.png
+    - assets\photo\na.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

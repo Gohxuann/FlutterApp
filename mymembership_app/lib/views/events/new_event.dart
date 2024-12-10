@@ -114,7 +114,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                     );
                                     print(selectedStartDateTime.toString());
                                     var formatter =
-                                        DateFormat('dd-MM-yyyy hh:mm a');
+                                        DateFormat('dd/MM/yyyy hh:mm a');
                                     String formattedDate =
                                         formatter.format(selectedStartDateTime);
                                     startDateTime = formattedDate.toString();
@@ -153,7 +153,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                       selectTime.minute,
                                     );
                                     var formatter =
-                                        DateFormat('dd-MM-yyyy hh:mm a');
+                                        DateFormat('dd/MM/yyyy hh:mm a');
                                     String formattedDate =
                                         formatter.format(selectedEndDateTime);
                                     endDateTime = formattedDate.toString();
@@ -337,8 +337,8 @@ class _NewEventScreenState extends State<NewEventScreen> {
       maxHeight: 800,
       maxWidth: 800,
     );
-    print("BEFORE CROP: ");
-    //print(getFileSize(_image!));
+    // print("BEFORE CROP: ");
+    // print(getFileSize(_image!));
     if (pickedFile != null) {
       _image = File(pickedFile.path);
       // setState(() {
