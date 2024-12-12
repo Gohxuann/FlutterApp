@@ -41,7 +41,17 @@ class _NewEventScreenState extends State<NewEventScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("New Event"),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text("New Event", style: TextStyle(color: Colors.white)),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blueGrey, Colors.deepPurple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),

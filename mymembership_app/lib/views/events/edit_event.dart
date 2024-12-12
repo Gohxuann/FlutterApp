@@ -60,7 +60,20 @@ class _EditEventScreenState extends State<EditEventScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Edit Event"),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text(
+            "Edit Event",
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blueGrey, Colors.deepPurple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),

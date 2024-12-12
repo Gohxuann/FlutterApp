@@ -11,7 +11,6 @@ if (isset($_GET['pageno'])){
 
 $page_first_result = ($pageno - 1) * $results_per_page;
 
-
 $sqlloadnews = "SELECT * FROM `news_table` ORDER BY `news_date` DESC";
 $result = $conn->query($sqlloadnews);
 $number_of_result = $result->num_rows;
@@ -19,7 +18,6 @@ $number_of_result = $result->num_rows;
 $number_of_page = ceil($number_of_result / $results_per_page);
 $sqlloadnews = $sqlloadnews." LIMIT $page_first_result, $results_per_page";
 $result = $conn->query($sqlloadnews);
-
 
 if ($result->num_rows > 0) {
     $newsarray['news'] = array();

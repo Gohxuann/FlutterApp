@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mymembership_app/views/auth/login_screen.dart';
 import 'package:mymembership_app/views/events/event_screen.dart';
 import 'package:mymembership_app/views/newsletter/news_screen.dart';
+import 'package:mymembership_app/views/product/products_list_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -102,7 +103,31 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.shopping_cart, color: Colors.deepPurple),
             title: const Text("Products"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const ProductListScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0); // Slide in from the right
+                    const end = Offset.zero;
+                    const curve = Curves.ease;
+
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    var offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.verified, color: Colors.deepPurple),

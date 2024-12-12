@@ -21,6 +21,7 @@ class _EventScreenState extends State<EventScreen> {
   late double screenWidth, screenHeight;
   final df = DateFormat('dd/MM/yyyy hh:mm a');
   String status = "Loading...";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -30,81 +31,142 @@ class _EventScreenState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String searchQuery = "";
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
+
     if (screenWidth <= 600) {}
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Events"),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text("Events", style: TextStyle(color: Colors.white)),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
         ],
       ),
-      body: eventsList.isEmpty
-          ? Center(
-              child: Text(
-                status,
-                style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          // Search Bar
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+              decoration: InputDecoration(
+                hintText: "Search event",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            )
-          : GridView.count(
-              childAspectRatio: 0.75,
-              crossAxisCount: 2,
-              children: List.generate(eventsList.length, (index) {
-                return Card(
-                  child: InkWell(
-                    splashColor: Colors.red,
-                    onLongPress: () {
-                      deleteDialog(index);
-                    },
-                    onTap: () {
-                      showEventDetailsDialog(index);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
-                      child: Column(children: [
-                        Text(
-                          eventsList[index].eventTitle.toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        SizedBox(
-                          child: Image.network(
-                              errorBuilder: (context, error, stackTrace) =>
-                                  SizedBox(
-                                    height: screenHeight / 6,
-                                    child: Image.asset(
-                                      "assets/images/na.png",
-                                    ),
+            ),
+          ),
+
+          // Event Grid or Message if no events
+          Expanded(
+            child: eventsList.isEmpty
+                ? Center(
+                    child: Text(
+                      status,
+                      style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : GridView.count(
+                    childAspectRatio: 0.75,
+                    crossAxisCount: 2,
+                    children: List.generate(
+                      eventsList
+                          .where((event) => event.eventTitle!
+                              .toLowerCase()
+                              .contains(searchQuery)) // Filtered list
+                          .toList()
+                          .length,
+                      (index) {
+                        var filteredEvents = eventsList
+                            .where((event) => event.eventTitle!
+                                .toLowerCase()
+                                .contains(searchQuery)) // Filtered list
+                            .toList();
+                        return Card(
+                          child: InkWell(
+                            splashColor: Colors.white,
+                            onLongPress: () {
+                              deleteDialog(index);
+                            },
+                            onTap: () {
+                              showEventDetailsDialog(index);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
+                              child: Column(children: [
+                                Text(
+                                  filteredEvents[index].eventTitle.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                                SizedBox(
+                                  child: Image.network(
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              SizedBox(
+                                                height: screenHeight / 6,
+                                                child: Image.asset(
+                                                  "assets/images/na.png",
+                                                ),
+                                              ),
+                                      width: screenWidth / 2,
+                                      height: screenHeight / 6,
+                                      fit: BoxFit.cover,
+                                      scale: 4,
+                                      "${MyConfig.servername2}/membership/assets/events/${filteredEvents[index].eventFilename}"),
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                  child: Text(
+                                    filteredEvents[index].eventType.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                              width: screenWidth / 2,
-                              height: screenHeight / 6,
-                              fit: BoxFit.cover,
-                              scale: 4,
-                              "${MyConfig.servername2}/membership/assets/events/${eventsList[index].eventFilename}"),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                          child: Text(
-                            eventsList[index].eventType.toString(),
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(df.format(DateTime.parse(
+                                    filteredEvents[index]
+                                        .eventDate
+                                        .toString()))),
+                                Text(truncateString(
+                                    filteredEvents[index]
+                                        .eventDescription
+                                        .toString(),
+                                    45)),
+                              ]),
+                            ),
                           ),
-                        ),
-                        Text(df.format(DateTime.parse(
-                            eventsList[index].eventDate.toString()))),
-                        Text(truncateString(
-                            eventsList[index].eventDescription.toString(), 45)),
-                      ]),
+                        );
+                      },
                     ),
                   ),
-                );
-              })),
+          ),
+        ],
+      ),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
